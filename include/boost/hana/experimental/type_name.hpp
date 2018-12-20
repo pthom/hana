@@ -22,8 +22,7 @@ BOOST_HANA_NAMESPACE_BEGIN  namespace experimental {
         template <typename T, std::size_t ...i>
         auto type_name_impl(std::index_sequence<i...>) {
             constexpr auto name = type_name_details::type_name_impl_stringliteral<T>();
-            auto r = boost::hana::string<*(name.ptr + i)...>{};
-            return r;
+            return boost::hana::string<*(name.ptr + i)...>{};
         }
     } // end namespace type_name_details
 
@@ -42,10 +41,9 @@ BOOST_HANA_NAMESPACE_BEGIN  namespace experimental {
             constexpr auto name = type_name_details::type_name_impl_stringliteral<T>();
             return type_name_details::type_name_impl<T>(std::make_index_sequence<name.length>{});
         #else
-            auto as_cstring = type_name_details::type_name_impl_stringliteral<T>();
-            std::string name_full = std::string(as_cstring.ptr);
-            std::string name_cut = name_full.substr(0, as_cstring.length);
-            return name_cut;
+            return  type_name_details::stringliteral_to_string(
+                type_name_details::type_name_impl_stringliteral<T>()
+            );
         #endif
     }
 } BOOST_HANA_NAMESPACE_END

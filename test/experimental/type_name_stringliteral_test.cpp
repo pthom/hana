@@ -9,13 +9,12 @@ namespace type_name_details = boost::hana::experimental::type_name_details;
 
 
 #ifdef _HANA_TN_CAN_CONSTEXPR
-    #define RUN_ONE_TYPE_TEST_COMPILE_TIME(type_definition, type_string_literal)                     \
-        {                                                                                            \
-            constexpr auto computed =                                                                \
-                type_name_details::type_name_impl_stringliteral<type_definition>();                  \
-            static_assert( type_name_details::stringliteral_equal_sz(computed, type_string_literal), \
-                "RUN_ONE_TYPE_TEST_COMPILE_TIME error");                                             \
-        }
+    #define RUN_ONE_TYPE_TEST_COMPILE_TIME(type_definition, type_string_literal)    \
+        static_assert(                                                              \
+            type_name_details::stringliteral_equal_sz(                              \
+                type_name_details::type_name_impl_stringliteral<type_definition>(), \
+                type_string_literal),                                               \
+            "RUN_ONE_TYPE_TEST_COMPILE_TIME error");
 #else
     #define RUN_ONE_TYPE_TEST_COMPILE_TIME(type_definition, type_string_literal)
 #endif

@@ -13,7 +13,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 // only clang and MSVC support constexpr __PRETTY_FUNCTION__, gcc does not
 #if defined(__clang__) || defined(_MSC_VER)
-    #define _HANA_TN_CAN_CONSTEXPR
+    // _HANA_DISABLE_CONSTEXPR_TYPE_NAME is defined by .travis.yml
+    // for antique clang versions (< 3.6.2)
+    #if not defined(_HANA_DISABLE_CONSTEXPR_TYPE_NAME)
+        #define _HANA_TN_CAN_CONSTEXPR
+    #endif
 #endif
 
 // in constexpr mode, strlen is equivalent to sizeof() - 1
